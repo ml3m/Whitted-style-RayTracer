@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <ostream>
 
 using std::sqrt;
 
@@ -64,5 +65,71 @@ class vec3 {
     public:
         double e[3]; // components of the vector: x, y, z
 };
+
+std::ostream& operator<<(std::ostream &out, const vec3 &v) {
+    // Outputs the vector in "x y z" format to an output stream.
+    return out << v.e[0] << ' ' << v.e[1] << ' ' << v.e[2];
+}
+
+vec3 operator+(const vec3 &u, const vec3 &v) {
+    // Adds two vectors component-wise: (u.x + v.x, u.y + v.y, u.z + v.z)
+    return vec3(u.e[0] + v.e[0], 
+                u.e[1] + v.e[1],
+                u.e[2] + v.e[2]);
+}
+
+vec3 operator-(const vec3 &u, const vec3 &v) {
+    // Subtracts two vectors component-wise: (u.x - v.x, u.y - v.y, u.z - v.z)
+    return vec3(u.e[0] - v.e[0], 
+                u.e[1] - v.e[1],
+                u.e[2] - v.e[2]);
+}
+
+vec3 operator*(const vec3 &u, const vec3 &v) {
+    // (Hadamard product)
+    // Multiplies two vectors component-wise : (u.x * v.x, u.y * v.y, u.z * v.z)
+    return vec3(u.e[0] * v.e[0], 
+                u.e[1] * v.e[1],
+                u.e[2] * v.e[2]);
+}
+
+vec3 operator*(double t, const vec3 &v) {
+    // Scales a vector by a scalar t: (t * v.x, t * v.y, t * v.z)
+    return vec3(t * v.e[0], 
+                t * v.e[1],
+                t * v.e[2]);
+}
+
+vec3 operator/(vec3 v, double t) {
+    // Divides a vector by a scalar t, equivalent to multiplying by 1/t
+    return (1/t) * v;
+}
+
+double dot(const vec3 &u, const vec3 &v) {
+    // Computes the dot product of two vectors:
+    // dot(u, v) = u.x * v.x + u.y * v.y + u.z * v.z
+    return u.e[0] * v.e[0] +
+           u.e[1] * v.e[1] +
+           u.e[2] * v.e[2];
+}
+
+vec3 cross(const vec3 &u, const vec3 &v) {
+    // Computes the cross product of two vectors:
+    // cross(u, v) = (u.y * v.z - u.z * v.y, u.z * v.x - u.x * v.z, u.x * v.y - u.y * v.x)
+    // The result is a vector perpendicular to both u and v.
+    return vec3(u.e[1] * v.e[2] - u.e[2] * v.e[1], 
+                u.e[2] * v.e[0] - u.e[0] * v.e[2],
+                u.e[0] * v.e[1] - u.e[1] * v.e[0]);
+}
+
+vec3 unit_vector(vec3 v) {
+    // Normalizes the vector to have a magnitude of 1:
+    // unit_vector(v) = v / ||v||, where ||v|| is the vector's length
+    return v / v.length();
+}
+
+// Type aliases
+using point3 = vec3; // Represents a 3D point in space
+using color = vec3;  // Represents an RGB color value
 
 #endif
