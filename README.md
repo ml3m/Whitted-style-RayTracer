@@ -2,4 +2,4 @@
 
 
 Gradient ppm
-![gradient.png]
+![gradient](gradient.png)
