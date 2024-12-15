@@ -1,7 +1,5 @@
 # Whitted-style-RayTracer
 
 
-Gradient ppm
-![gradient](gradient.png)
-
-<p align="center"><img width="100%" src="gradient.png" /></a></p>
+## Gradient ppm converted to png.
+<p align="center"><img width="50%" src="gradient.png" /></a></p>
