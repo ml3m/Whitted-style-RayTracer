@@ -1,4 +1,4 @@
-# Whitted-style-RayTracer
+# Whitted-style Ray Tracer
 
 
 ## Gradient ppm converted to png.
