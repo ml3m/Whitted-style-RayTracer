@@ -1,3 +1,0 @@
-/Users/mlem/personal/projects/Whitted-style-RayTracer/build/CMakeFiles/background.dir
-/Users/mlem/personal/projects/Whitted-style-RayTracer/build/CMakeFiles/edit_cache.dir
-/Users/mlem/personal/projects/Whitted-style-RayTracer/build/CMakeFiles/rebuild_cache.dir
