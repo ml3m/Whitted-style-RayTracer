@@ -4,20 +4,23 @@
 #include "hittable.h"
 #include "ray.h"
 #include "vec3.h"
+#include <functional>
 
-class sphere {
+class sphere : public hittable {
     public:
         point3 center;
         double radius;
+        color  albedo;
+        bool    metal;
 
     public:
         sphere() {}
-        sphere(point3 cen, double r) : center(cen), radius(r) {};
+        sphere(point3 cen, double r, color c, bool m) : center(cen), radius(r), albedo(c), metal(m){};
 
-        bool hit (const ray& r, double t_min, double t_max, hit_record& rec) const;
+        bool hit (const ray& r, interval ray_t, hit_record& rec) const override;
 };
 
-bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& rec) const {
+bool sphere::hit(const ray& r, interval ray_t, hit_record& rec) const {
     vec3 oc = r.origin() - center;
     auto a = dot(r.direction(), r.direction());
     auto half_b = dot(oc, r.direction());
@@ -30,13 +33,26 @@ bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& rec) cons
 
     // find the nearest root that lies in the acceptable range.
     auto root = (-half_b - sqrtd) / a;
-    if (root < t_min || t_max < root) {
+    if (!ray_t.surrounds(root)) {
         return false;
     }
 
     rec.t = root;
     rec.p = r.at(rec.t);
     rec.normal = (rec.p - center) / radius;
+
+    rec.attenuation = albedo;
+
+    vec3 direction;
+
+    if (metal) {
+        direction = reflect(r.direction(), rec.normal);
+    } else {
+        direction = rec.normal + random_in_unit_sphere();
+    }
+
+
+    rec.scattered = ray(rec.p, direction);
 
     return true;
 }

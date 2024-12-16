@@ -2,8 +2,11 @@
 #define VEC3_H
 
 #include <cmath>
+#include <filesystem>
 #include <iostream>
 #include <ostream>
+
+#include "mlem.h"
 
 using std::sqrt;
 
@@ -63,6 +66,14 @@ class vec3 {
             return e[0] * e[0] +
                    e[1] * e[1] +
                    e[2] * e[2];
+        }
+
+        static vec3 random() {
+            return vec3(random_double(), random_double(), random_double());
+        }
+
+        static vec3 random(double min, double max) {
+            return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
         }
 };
 
@@ -126,6 +137,32 @@ vec3 unit_vector(vec3 v) {
     // Normalizes the vector to have a magnitude of 1:
     // unit_vector(v) = v / ||v||, where ||v|| is the vector's length
     return v / v.length();
+}
+
+vec3 random_in_unit_sphere() {
+    while (true) {
+        auto p = vec3::random(-1,1);
+        if (p.length_squared() < 1) {
+            return p;
+        }
+    }
+}
+
+vec3 random_unit_vector() {
+    return unit_vector(random_in_unit_sphere());
+}
+
+vec3 random_on_hemisphere(const vec3& normal) {
+    vec3 on_unit_sphere = random_unit_vector();
+    if (dot(on_unit_sphere, normal) > 0.0) { // in the same hemisphere as the normal.
+        return on_unit_sphere; 
+    } else {
+        return -on_unit_sphere; 
+    }
+}
+
+vec3 reflect(const vec3& v, const vec3& n){
+    return v - 2 * dot(v,n) * n;
 }
 
 // Type aliases
