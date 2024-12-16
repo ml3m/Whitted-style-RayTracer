@@ -9,6 +9,9 @@ using std::sqrt;
 
 class vec3 {
     public:
+        double e[3]; // components of the vector: x, y, z
+                     
+    public:
         // Default constructor init the vector to (0, 0, 0)
         vec3() { e[0] = 0; e[1] = 0; e[2] = 0; } // Default constructor
         vec3(double e0, double e1, double e2) { // Parameterized constructor
@@ -61,9 +64,6 @@ class vec3 {
                    e[1] * e[1] +
                    e[2] * e[2];
         }
-
-    public:
-        double e[3]; // components of the vector: x, y, z
 };
 
 std::ostream& operator<<(std::ostream &out, const vec3 &v) {
