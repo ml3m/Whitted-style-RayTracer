@@ -75,6 +75,12 @@ class vec3 {
         static vec3 random(double min, double max) {
             return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
         }
+
+        bool near_zero() const {
+            // return true if the vector is close to zero in all dimensions.
+            auto s = 1e-8;
+            return (fabs(e[0]) < s) && (fabs(e[1]) < s) && (fabs(e[2]) < s);
+        }
 };
 
 std::ostream& operator<<(std::ostream &out, const vec3 &v) {

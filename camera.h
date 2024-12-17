@@ -6,6 +6,8 @@
 #include "mlem.h"
 #include "vec3.h"
 #include "ray.h"
+#include "hittable_list.h"
+#include "material.h"
 
 #include <iostream>
 
@@ -75,7 +77,13 @@ class camera {
             }
 
             if (world.hit(r, interval(0, infinity), rec)) {
-                return rec.attenuation * ray_color(rec.scattered, depth - 1, world);
+                ray scattered;
+                color attenuation;
+                if (rec.mat->scatter(r, rec, attenuation, scattered)) {
+                    return attenuation * ray_color(scattered, depth - 1, world);
+                } else {
+                    return color(0, 0, 0);
+                }
             }
 
             vec3 unit_direction = unit_vector(r.direction());

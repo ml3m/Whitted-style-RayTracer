@@ -2,20 +2,22 @@
 #define SPHERE_H
 
 #include "hittable.h"
+#include "material.h"
+#include "mlem.h"
 #include "ray.h"
 #include "vec3.h"
 #include <functional>
+#include <memory>
 
 class sphere : public hittable {
     public:
         point3 center;
         double radius;
-        color  albedo;
-        bool    metal;
+        shared_ptr<material> mat;
 
     public:
         sphere() {}
-        sphere(point3 cen, double r, color c, bool m) : center(cen), radius(r), albedo(c), metal(m){};
+        sphere(point3 cen, double r, shared_ptr<material> m) : center(cen), radius(r), mat(m) {};
 
         bool hit (const ray& r, interval ray_t, hit_record& rec) const override;
 };
@@ -41,18 +43,7 @@ bool sphere::hit(const ray& r, interval ray_t, hit_record& rec) const {
     rec.p = r.at(rec.t);
     rec.normal = (rec.p - center) / radius;
 
-    rec.attenuation = albedo;
-
-    vec3 direction;
-
-    if (metal) {
-        direction = reflect(r.direction(), rec.normal);
-    } else {
-        direction = rec.normal + random_in_unit_sphere();
-    }
-
-
-    rec.scattered = ray(rec.p, direction);
+    rec.mat = mat;
 
     return true;
 }

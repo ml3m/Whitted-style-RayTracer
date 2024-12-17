@@ -2,17 +2,18 @@
 #define HITTABLE_H
 
 #include "interval.h"
+#include "mlem.h"
 #include "vec3.h"
 #include "ray.h"
+
+class material;
 
 class hit_record {
     public:
         point3 p;
         vec3 normal;
         double t;
-
-        color attenuation;
-        ray   scattered;
+        shared_ptr<material> mat;
 };
 
 class hittable {
