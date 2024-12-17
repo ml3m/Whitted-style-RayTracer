@@ -10,7 +10,7 @@
 #include <memory>
 
 class sphere : public hittable {
-    public:
+    private:
         point3 center;
         double radius;
         shared_ptr<material> mat;
@@ -27,11 +27,13 @@ bool sphere::hit(const ray& r, interval ray_t, hit_record& rec) const {
     auto a = dot(r.direction(), r.direction());
     auto half_b = dot(oc, r.direction());
     auto c = dot(oc, oc) - radius * radius;
-
     auto discriminant = half_b * half_b - a*c; 
-    if (discriminant < 0) return false;
-    auto sqrtd = sqrt(discriminant);
 
+    if (discriminant < 0) {
+        return false;
+    }
+
+    auto sqrtd = sqrt(discriminant);
 
     // find the nearest root that lies in the acceptable range.
     auto root = (-half_b - sqrtd) / a;

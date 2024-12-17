@@ -158,6 +158,11 @@ vec3 random_unit_vector() {
     return unit_vector(random_in_unit_sphere());
 }
 
+vec3 sample_square() {
+    // Returns the vector to a random point in the [-.5,-.5]-[+.5,+.5] unit square.
+    return vec3(random_double() - 0.5, random_double() - 0.5, 0);
+}
+
 vec3 random_on_hemisphere(const vec3& normal) {
     vec3 on_unit_sphere = random_unit_vector();
     if (dot(on_unit_sphere, normal) > 0.0) { // in the same hemisphere as the normal.
