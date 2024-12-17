@@ -23,7 +23,7 @@ class camera {
             std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
             for (int j = 0; j < image_height; ++j) {
-                //std::clog << "Scanlines remaining: " << (image_height - j) << '\n';
+                std::clog << "Scanlines remaining: " << (image_height - j) << '\n';
                 for (int i = 0; i < image_width; ++i) {
 
                     auto pixel_center = pixel00_loc + (i * pixel_delta_u) + (j * pixel_delta_v);
@@ -76,7 +76,7 @@ class camera {
                 return color(0,0,0);
             }
 
-            if (world.hit(r, interval(0, infinity), rec)) {
+            if (world.hit(r, interval(0.0000000001, infinity), rec)) {
                 ray scattered;
                 color attenuation;
                 if (rec.mat->scatter(r, rec, attenuation, scattered)) {
