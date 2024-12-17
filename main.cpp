@@ -32,9 +32,9 @@ int main () {
     camera cam;
 
     cam.aspect_ratio = 16.0 / 9.0;
-    cam.image_width = 400;
+    cam.image_width = 2000;
     cam.max_depth = 50; // max ray-bouncing.
-    cam.samples_per_pixel = 100;
+    cam.samples_per_pixel = 50;
 
     cam.render(world);
 }
