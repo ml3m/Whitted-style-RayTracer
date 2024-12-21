@@ -2,6 +2,7 @@
 /******* This file will contain usefull constants and more. ********/
 #define MLEM
 
+#include <cmath>
 #include <cstdlib>
 #include <limits>
 #include <memory>
@@ -10,6 +11,9 @@ using std::shared_ptr;
 using std::make_shared;
 
 // Utilityk
+double degrees_to_radians(double deg){
+    return deg * M_PI / 180.0;
+}
 
 double random_double() {
     // [0,1)
