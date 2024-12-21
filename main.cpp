@@ -13,6 +13,54 @@ using std::chrono::duration_cast;
 using std::chrono::milliseconds;
 
 int main() {
+    auto material_ground = make_shared<lambertian>(color(0.9, 0.6, 0.7));
+    auto material_center = make_shared<lambertian>(color(0.7, 0.2, 0.1));
+    auto material_left   = make_shared<metal>(color(0.2, 0.7, 0.1), 0.3);
+    auto material_right  = make_shared<dielectric>(1.5);
+    auto material_top    = make_shared<metal>(color(1,1,1));
+
+    hittable_list world;
+
+    world.add(make_shared<sphere>(point3(-1,0,-1),     0.5, material_left));
+    world.add(make_shared<sphere>(point3(0,0,-1),      0.5, material_center));
+    world.add(make_shared<sphere>(point3(1,0,-1),      0.5, material_right));
+    world.add(make_shared<sphere>(point3(0,-100.5,-1), 100, material_ground));
+    world.add(make_shared<sphere>(point3(0,1.5,2),       2, material_top));
+
+    camera cam;
+
+    cam.aspect_ratio      = 16.0 / 9.0;
+    cam.image_width       = 4000;
+    cam.samples_per_pixel = 100;
+    cam.max_depth         = 50;
+
+    cam.vfov     = 14;
+    cam.lookfrom = point3(10, 5, -12);
+    cam.lookat   = point3(0, 0, 0);
+    cam.vup      = vec3(0, 1, 0);
+
+    //cam.defocus_angle = 0.6;
+    //cam.focus_dist    = 10.0;
+    cam.block_size    = 32;
+
+    // Start the timer
+    auto start_time = high_resolution_clock::now();
+
+    // Render the scene
+    cam.render(world);
+
+    // Stop the timer
+    auto end_time = high_resolution_clock::now();
+
+    // Calculate and display the elapsed time
+    auto duration = duration_cast<milliseconds>(end_time - start_time);
+    std::cerr << "Render time: " << duration.count() << " milliseconds" << std::endl;
+
+    return 0;
+}
+
+/*
+int main() {
     hittable_list world;
 
     auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
@@ -58,17 +106,18 @@ int main() {
     camera cam;
 
     cam.aspect_ratio      = 16.0 / 9.0;
-    cam.image_width       = 200;
-    cam.samples_per_pixel = 50;
+    cam.image_width       = 400;
+    cam.samples_per_pixel = 10;
     cam.max_depth         = 50;
 
-    cam.vfov     = 20;
+    cam.vfov     = 50;
     cam.lookfrom = point3(13, 2, 3);
     cam.lookat   = point3(0, 0, 0);
     cam.vup      = vec3(0, 1, 0);
 
     cam.defocus_angle = 0.6;
     cam.focus_dist    = 10.0;
+    cam.block_size    = 32;
 
     // Start the timer
     auto start_time = high_resolution_clock::now();
@@ -85,6 +134,7 @@ int main() {
 
     return 0;
 }
+*/
 
 /*
 int main () {
@@ -118,3 +168,4 @@ int main () {
     cam.render(world);
 }
 */
+

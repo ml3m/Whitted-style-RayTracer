@@ -6,23 +6,26 @@
 #include <cstdlib>
 #include <limits>
 #include <memory>
+#include <random>  // Include the C++ random library
 
 using std::shared_ptr;
 using std::make_shared;
+
+// Threads
+
+thread_local std::mt19937 gen(std::random_device{}());
+thread_local std::uniform_real_distribution<double> dist(0.0, 1.0);
 
 // Utilityk
 double degrees_to_radians(double deg){
     return deg * M_PI / 180.0;
 }
 
-double random_double() {
-    // [0,1)
-    return rand() / (RAND_MAX + 1.0);
-}
-
-double random_double(double min, double max) {
-    // [min, max)
-    return min + (max-min) * random_double();
+double random_double(double min = 0.0, double max = 1.0) {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(min, max);
+    return dis(gen);
 }
 
 // Constants
