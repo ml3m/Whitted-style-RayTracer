@@ -110,6 +110,15 @@ vec3 operator*(const vec3 &u, const vec3 &v) {
                 u.e[2] * v.e[2]);
 }
 
+// double * vector
+vec3 operator*(const vec3 &v, double t) {
+    // Scales a vector by a scalar t: (t * v.x, t * v.y, t * v.z)
+    return vec3(v.e[0] * t, 
+                v.e[1] * t,
+                v.e[2] * t);
+}
+
+// vector * double
 vec3 operator*(double t, const vec3 &v) {
     // Scales a vector by a scalar t: (t * v.x, t * v.y, t * v.z)
     return vec3(t * v.e[0], 
@@ -143,6 +152,15 @@ vec3 unit_vector(vec3 v) {
     // Normalizes the vector to have a magnitude of 1:
     // unit_vector(v) = v / ||v||, where ||v|| is the vector's length
     return v / v.length();
+}
+
+vec3 random_in_unit_disk() {
+    while (true) {
+        auto p = vec3(random_double(-1,1), random_double(-1,1), 0);
+        if (p.length_squared() < 1) {
+            return p;
+        }
+    }
 }
 
 vec3 random_in_unit_sphere() {
